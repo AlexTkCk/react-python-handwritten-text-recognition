@@ -24,7 +24,16 @@ x_test = tf.keras.utils.normalize(x_test, axis=1)
 
 model = tf.keras.models.load_model('handwritten.model')
 
-loss, accuracy = model.evaluate(x_test, y_test)
-
-print('Loss:', loss)
-print('Accuracy:', accuracy)
+image_number = 1
+while os.path.isfile(f"test_assets/image_{image_number}.png"):
+    try:
+        img = cv2.imread(f"test_assets/image_{image_number}.png")[:,:,0]
+        img = np.invert(np.array([img]))
+        prediction = model.predict(img)
+        print('Prediction:', np.argmax(prediction))
+        plt.imshow(img[0], cmap=plt.cm.binary)
+        plt.show()
+    except:
+        print('Error')
+    finally:
+        image_number += 1
