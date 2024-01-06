@@ -14,17 +14,18 @@ x_test = tf.keras.utils.normalize(x_test, axis=1)
 # model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 # model.add(tf.keras.layers.Dense(128, activation='relu'))
 # model.add(tf.keras.layers.Dense(128, activation='relu'))
+# model.add(tf.keras.layers.Dense(128, activation='relu'))
 # model.add(tf.keras.layers.Dense(10, activation='softmax'))
 #
 # model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 #
-# model.fit(x_train, y_train, epochs=3)
-
+# model.fit(x_train, y_train, epochs=15)
+#
 # model.save('handwritten.model')
 
 model = tf.keras.models.load_model('handwritten.model')
 
-image_number = 1
+image_number = 0
 while os.path.isfile(f"test_assets/image_{image_number}.png"):
     try:
         img = cv2.imread(f"test_assets/image_{image_number}.png")[:,:,0]
