@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 from PyQt6 import QtGui
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPen
 
 
 class MainWindow(QMainWindow):
@@ -55,13 +56,19 @@ class MainWindow(QMainWindow):
         container.setLayout(main_layout)
         # ==== End of container ====
 
+        # ==== Pen ====
+        self.pen = QPen()
+        self.pen.setWidth(6)
+        self.pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+        # ==== End of Pen ====
+
         self.setCentralWidget(container)
 
     def mouseMoveEvent(self, e):
         pos = e.pos()
         x, y = pos.x(), pos.y()
 
-        print(x, y)
+
 
 
 app = QApplication(sys.argv)
