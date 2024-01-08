@@ -72,10 +72,12 @@ class MainWindow(QMainWindow):
         pos = e.pos()
         x, y = pos.x(), pos.y()
 
+        # ==== Painter ====
         painter = QPainter(self.canvas)
         painter.setPen(self.pen)
         painter.drawPoint(x, y)
         painter.end()
+        # ==== End of Painter ====
 
         self.canvas_label.setPixmap(self.canvas)
 
