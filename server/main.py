@@ -39,6 +39,9 @@ class MainWindow(QMainWindow):
         self.reset_button = QPushButton()
         self.get_prediction_button.setText('Predict')
         self.reset_button.setText('Reset')
+
+        self.get_prediction_button.clicked.connect(self.predict)
+        self.reset_button.clicked.connect(self.reset)
         # ==== End of Buttons ====
 
         # ==== Main Layout ====
@@ -81,6 +84,11 @@ class MainWindow(QMainWindow):
 
         self.canvas_label.setPixmap(self.canvas)
 
+    def predict(self):
+        print('Predict clicked')
+
+    def reset(self):
+        print('Reset clicked')
 
 app = QApplication(sys.argv)
 window = MainWindow()
