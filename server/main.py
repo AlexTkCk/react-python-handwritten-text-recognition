@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 from PyQt6 import QtGui
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPen
+from PyQt6.QtGui import QPen, QPainter
 
 
 class MainWindow(QMainWindow):
@@ -68,7 +68,12 @@ class MainWindow(QMainWindow):
         pos = e.pos()
         x, y = pos.x(), pos.y()
 
+        painter = QPainter(self.canvas)
+        painter.setPen(self.pen)
+        painter.drawPoint(x, y)
+        painter.end()
 
+        self.canvas_label.setPixmap(self.canvas)
 
 
 app = QApplication(sys.argv)
