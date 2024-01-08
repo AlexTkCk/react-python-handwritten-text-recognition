@@ -88,7 +88,8 @@ class MainWindow(QMainWindow):
         print('Predict clicked')
 
     def reset(self):
-        print('Reset clicked')
+        self.canvas.fill(Qt.GlobalColor.white)
+        self.canvas_label.setPixmap(self.canvas)
 
 app = QApplication(sys.argv)
 window = MainWindow()
