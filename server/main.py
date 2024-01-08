@@ -3,11 +3,15 @@ import sys
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-# import tensorflow as tf
+import tensorflow as tf
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 from PyQt6 import QtGui
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPen, QPainter
+
+# ==== Model =====
+model = tf.keras.models.load_model('handwritten.model')
+# ==== End of Model ====
 
 
 class MainWindow(QMainWindow):
