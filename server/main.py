@@ -85,11 +85,12 @@ class MainWindow(QMainWindow):
         self.canvas_label.setPixmap(self.canvas)
 
     def predict(self):
-        print('Predict clicked')
+        self.canvas.save('predict_image.png')
 
     def reset(self):
         self.canvas.fill(Qt.GlobalColor.white)
         self.canvas_label.setPixmap(self.canvas)
+
 
 app = QApplication(sys.argv)
 window = MainWindow()
