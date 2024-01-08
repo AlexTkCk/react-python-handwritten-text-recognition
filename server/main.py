@@ -57,6 +57,12 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(container)
 
+    def mouseMoveEvent(self, e):
+        pos = e.pos()
+        x, y = pos.x(), pos.y()
+
+        print(x, y)
+
 
 app = QApplication(sys.argv)
 window = MainWindow()
