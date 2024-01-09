@@ -1,54 +1,104 @@
-import os
+import sys
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
+from PyQt6 import QtGui
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPen, QPainter
 
-# ===== Data loading section =====
-
-mnist = tf.keras.datasets.mnist
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-
-x_train = tf.keras.utils.normalize(x_train, axis=1)
-x_test = tf.keras.utils.normalize(x_test, axis=1)
-
-# ===== End of Data loading section =====
-
-# ===== Train section =====
-
-#
-# model = tf.keras.models.Sequential()
-# model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
-# model.add(tf.keras.layers.Dense(128, activation='relu'))
-# model.add(tf.keras.layers.Dense(128, activation='relu'))
-# model.add(tf.keras.layers.Dense(128, activation='relu'))
-# model.add(tf.keras.layers.Dense(10, activation='softmax'))
-#
-# model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-#
-# model.fit(x_train, y_train, epochs=15)
-#
-# model.save('handwritten.model')
-
-# ===== End of Train section =====
-
-
-# ===== Evaluate section =====
-
+# ==== Model =====
 model = tf.keras.models.load_model('handwritten.model')
+# ==== End of Model ====
 
-image_number = 0
-while os.path.isfile(f"test_assets/image_{image_number}.png"):
-    try:
-        img = cv2.imread(f"test_assets/image_{image_number}.png")[:, :, 0]
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        # ==== Window Settings ====
+        self.setWindowTitle('Digits recognition')
+        # ==== End of Window Settings ====
+
+        # ==== Prediction Label ====
+        self.prediction_result_label = QLabel()
+        self.prediction_result_label.setText('Prediction is :')
+        # ==== End of Prediction Label ====
+
+        # ==== Canvas ====
+        self.canvas_label = QLabel()
+        self.canvas = QtGui.QPixmap(300, 300)
+        self.canvas.fill(Qt.GlobalColor.white)
+        self.canvas_label.setPixmap(self.canvas)
+        # ==== End of Canvas ====
+
+        # ==== Buttons ====
+        self.get_prediction_button = QPushButton()
+        self.reset_button = QPushButton()
+        self.get_prediction_button.setText('Predict')
+        self.reset_button.setText('Reset')
+
+        self.get_prediction_button.clicked.connect(self.predict)
+        self.reset_button.clicked.connect(self.reset)
+        # ==== End of Buttons ====
+
+        # ==== Main Layout ====
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.prediction_result_label)
+        main_layout.addWidget(self.canvas_label)
+
+        # ==== Button layout ====
+        buttons_layout = QHBoxLayout()
+        buttons_layout.addWidget(self.get_prediction_button)
+        buttons_layout.addWidget(self.reset_button)
+        # ==== End of Button layout ====
+
+        main_layout.addLayout(buttons_layout)
+        # ==== End of Main layout ====
+
+        # ==== Container ====
+        container = QWidget()
+        container.setLayout(main_layout)
+        # ==== End of container ====
+
+        # ==== Pen ====
+        self.pen = QPen()
+        self.pen.setWidth(6)
+        self.pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+        # ==== End of Pen ====
+
+        self.setCentralWidget(container)
+
+    def mouseMoveEvent(self, e):
+        pos = e.pos()
+        x, y = pos.x(), pos.y()
+
+        # ==== Painter ====
+        painter = QPainter(self.canvas)
+        painter.setPen(self.pen)
+        painter.drawPoint(x, y)
+        painter.end()
+        # ==== End of Painter ====
+
+        self.canvas_label.setPixmap(self.canvas)
+
+    def predict(self):
+        self.canvas.scaled(28, 28).save('predict_image.png')
+
+        img = cv2.imread(f"predict_image.png")[:, :, 0]
         img = np.invert(np.array([img]))
-        prediction = model.predict(img)
-        print('Prediction:', np.argmax(prediction))
-        plt.imshow(img[0], cmap=plt.cm.binary)
-        plt.show()
-    except:
-        print('Error')
-    finally:
-        image_number += 1
 
-# ===== End of Evaluate section =====
+        prediction = np.argmax(model.predict(img))
+
+        self.prediction_result_label.setText(f'Prediction: {prediction}')
+
+    def reset(self):
+        self.canvas.fill(Qt.GlobalColor.white)
+        self.canvas_label.setPixmap(self.canvas)
+
+
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+
+app.exec()
