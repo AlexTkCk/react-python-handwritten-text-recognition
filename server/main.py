@@ -85,28 +85,14 @@ class MainWindow(QMainWindow):
         self.canvas_label.setPixmap(self.canvas)
 
     def predict(self):
-        self.canvas.save('predict_image.png')
+        self.canvas.scaled(28, 28).save('predict_image.png')
 
         img = cv2.imread(f"predict_image.png")[:, :, 0]
         img = np.invert(np.array([img]))
-        img.resize((28, 28))
+
         prediction = np.argmax(model.predict(img))
 
-        self.prediction_result_label.setText('Prediction:', prediction)
-
-        # image_number = 0
-        # while os.path.isfile(f"test_assets/image_{image_number}.png"):
-        #     try:
-        #         img = cv2.imread(f"test_assets/image_{image_number}.png")[:, :, 0]
-        #         img = np.invert(np.array([img]))
-        #         prediction = model.predict(img)
-        #         print('Prediction:', np.argmax(prediction))
-        #         plt.imshow(img[0], cmap=plt.cm.binary)
-        #         plt.show()
-        #     except:
-        #         print('Error')
-        #     finally:
-        #         image_number += 1
+        self.prediction_result_label.setText(f'Prediction: {prediction}')
 
     def reset(self):
         self.canvas.fill(Qt.GlobalColor.white)
