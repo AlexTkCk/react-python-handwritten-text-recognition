@@ -3,11 +3,15 @@ import sys
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-# import tensorflow as tf
+import tensorflow as tf
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 from PyQt6 import QtGui
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPen, QPainter
+
+# ==== Model =====
+model = tf.keras.models.load_model('handwritten.model')
+# ==== End of Model ====
 
 
 class MainWindow(QMainWindow):
@@ -35,6 +39,9 @@ class MainWindow(QMainWindow):
         self.reset_button = QPushButton()
         self.get_prediction_button.setText('Predict')
         self.reset_button.setText('Reset')
+
+        self.get_prediction_button.clicked.connect(self.predict)
+        self.reset_button.clicked.connect(self.reset)
         # ==== End of Buttons ====
 
         # ==== Main Layout ====
@@ -68,11 +75,27 @@ class MainWindow(QMainWindow):
         pos = e.pos()
         x, y = pos.x(), pos.y()
 
+        # ==== Painter ====
         painter = QPainter(self.canvas)
         painter.setPen(self.pen)
         painter.drawPoint(x, y)
         painter.end()
+        # ==== End of Painter ====
 
+        self.canvas_label.setPixmap(self.canvas)
+
+    def predict(self):
+        self.canvas.scaled(28, 28).save('predict_image.png')
+
+        img = cv2.imread(f"predict_image.png")[:, :, 0]
+        img = np.invert(np.array([img]))
+
+        prediction = np.argmax(model.predict(img))
+
+        self.prediction_result_label.setText(f'Prediction: {prediction}')
+
+    def reset(self):
+        self.canvas.fill(Qt.GlobalColor.white)
         self.canvas_label.setPixmap(self.canvas)
 
 
