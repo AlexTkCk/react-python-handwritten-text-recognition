@@ -1,8 +1,6 @@
-import os
 import sys
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 from PyQt6 import QtGui
