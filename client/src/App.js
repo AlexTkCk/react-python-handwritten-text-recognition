@@ -1,10 +1,8 @@
-import React, {useRef} from 'react';
+import React from 'react';
 
 
 // Classname's are approximate - clarifying
 function App() {
-    const ref = useRef(null);
-    setTimeout(() => console.log(ref.current), 100)
     return (
         <div className="App">
             <header className="header">
