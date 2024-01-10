@@ -1,14 +1,13 @@
 import React from 'react';
 
 
-// Classname's are approximate - clarifying
 function App() {
     return (
-        <div className="App">
-            <header className="header">
+        <div className="App h-screen w-screen overflow-x-hidden">
+            <header className="header h-1/5">
                 <h1 className="title">Handwritten digits recognition</h1>
             </header>
-            <main className="main">
+            <main className="main grow">
                 <div className={"canvas"}></div>
                 <div className="container">
                     <h1 className={'container title'}>Prediction is : </h1>
