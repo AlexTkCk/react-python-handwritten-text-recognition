@@ -1,9 +1,11 @@
 import React from 'react';
-
+import ParticleBackground from "./components/Particles/ParticleBackground";
 
 function App() {
     return (
         <div className="App h-screen w-screen overflow-x-hidden">
+            <ParticleBackground/>
+
             <header className="header h-1/5">
                 <h1 className="title">Handwritten digits recognition</h1>
             </header>
