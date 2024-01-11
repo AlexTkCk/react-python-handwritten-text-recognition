@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import ParticleBackground from "./components/Particles/ParticleBackground";
 import Canvas from "./components/Canvas/Canvas";
 
 function App() {
+
+    const canvasRef = useRef(null);
+
+
     return (
         <div className="App h-screen w-screen overflow-x-hidden flex flex-col">
             <ParticleBackground/>
@@ -11,7 +15,7 @@ function App() {
                 <h1 className="title text-5xl md:text-8xl text-white text-center">Handwritten digits recognition</h1>
             </header>
             <main className="main grow flex flex-col md:flex-row justify-center items-center gap-5 ">
-                <Canvas className={"w-full h-full md:h-3/4 md:w-1/2 bg-white"}/>
+                <Canvas canvasRef={canvasRef} className={"w-full h-full md:h-3/4 md:w-1/2 bg-white"}/>
                 <div className="w-full flex flex-col items-center justify-evenly h-full">
                     <div className="relative w-fit mb-10">
                         <h1 className={'container_title relative text-3xl text-white bg-black lg:text-5xl border border-sm border-white' +
