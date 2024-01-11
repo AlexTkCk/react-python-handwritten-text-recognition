@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 const Canvas = (props) => {
     const canvasRef = useRef(null);
@@ -10,9 +10,22 @@ const Canvas = (props) => {
         context.fillRect(0, 0, context.canvas.width, context.canvas.height);
     }, []);
 
+    const startDrawing = () => {
+
+    }
+
+    const finishDrawing = () => {
+
+    }
+
+    const draw = () => {
+
+    }
+
     return (
-        <canvas ref={canvasRef} {...props}>
-            
+        <canvas ref={canvasRef}
+                {...props}>
+
         </canvas>
     );
 };
