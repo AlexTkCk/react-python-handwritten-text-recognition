@@ -6,6 +6,12 @@ function App() {
 
     const canvasRef = useRef(null);
 
+    const clearCanvasHandler = () => {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+    }
 
     return (
         <div className="App h-screen w-screen overflow-x-hidden flex flex-col">
@@ -25,7 +31,7 @@ function App() {
                     <div className="NN-visualization"></div>
                     <div className="buttons-container flex flex-col md:flex-row gap-5 items-center pb-3">
                         <button className={"predict-button text-3xl lg:text-6xl text-center bg-white text-black px-5 py-2.5 w-fit rounded-xl"}>Predict</button>
-                        <button className={"reset-button text-3xl lg:text-6xl text-center bg-white text-black px-5 py-2.5 w-fit rounded-xl"}>Clear</button>
+                        <button onClick={clearCanvasHandler} className={"reset-button text-3xl lg:text-6xl text-center bg-white text-black px-5 py-2.5 w-fit rounded-xl"}>Clear</button>
                     </div>
                 </div>
             </main>
