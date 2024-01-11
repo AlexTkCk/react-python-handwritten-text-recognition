@@ -17,8 +17,12 @@ const Canvas = (props) => {
         contextRef.current = context;
     }, []);
 
-    const startDrawing = () => {
+    const startDrawing = ({nativeEvent}) => {
+        const {offsetX, offsetY} = nativeEvent;
+
         setIsDrawing(true);
+        contextRef.current.beginPath();
+        contextRef.current.moveTo(offsetX, offsetY);
     }
 
     const finishDrawing = () => {
@@ -31,7 +35,8 @@ const Canvas = (props) => {
 
     return (
         <canvas ref={canvasRef}
-                {...props}>
+                {...props}
+                onMouseDown={startDrawing}>
 
         </canvas>
     );
