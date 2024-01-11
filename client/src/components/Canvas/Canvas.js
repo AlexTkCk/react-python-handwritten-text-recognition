@@ -26,17 +26,25 @@ const Canvas = (props) => {
     }
 
     const finishDrawing = () => {
+        contextRef.current.closePath();
         setIsDrawing(false);
     }
 
-    const draw = () => {
-
+    const draw = ({nativeEvent}) => {
+        if (!isDrawing) {
+            return
+        }
+        const {offsetX, offsetY} = nativeEvent;
+        contextRef.current.lineTo(offsetX, offsetY);
+        contextRef.current.stroke()
     }
 
     return (
         <canvas ref={canvasRef}
                 {...props}
-                onMouseDown={startDrawing}>
+                onMouseDown={startDrawing}
+                onMouseUp={finishDrawing}
+                onMouseMove={draw}>
 
         </canvas>
     );
