@@ -14,7 +14,7 @@ function App() {
                 <Canvas className={"w-full h-full md:h-3/4 md:w-1/2 bg-white"}/>
                 <div className="w-full flex flex-col items-center justify-evenly h-full">
                     <div className="relative w-fit mb-10">
-                        <h1 className={'container_title relative text-3xl sm:text-4xl text-white bg-black lg:text-6xl border border-sm border-white' +
+                        <h1 className={'container_title relative text-3xl text-white bg-black lg:text-5xl border border-sm border-white' +
                             ' rounded-bl-3xl text-center w-fit px-7 py-3 rounded-br-3xl z-[5]'}>Prediction is : ?</h1>
                         <div className="border-white absolute border left-5 top-5 w-full h-full rounded-br-3xl rounded-bl-3xl z-[3]"></div>
                     </div>
