@@ -7,14 +7,5 @@ Test_assets: 10 digits from 0 to 9<br>
 
 ## Run
 
-Run main.py to run the desktop app<br>
-`python main.py`<br>
-Draw a digit in canvas<br>
-Press predict button in below to get prediction in label above<br>
-Press reset button to clear the canvas
-
-The image was drawn will be saved in the work directory as 
-
-**predict_image.png**
-
-28 by 28 pixels.
+Run main.py to run local server<br>
+[localhost:8080](http://127.0.0.1:8080)
