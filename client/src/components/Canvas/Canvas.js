@@ -9,17 +9,16 @@ const Canvas = (props) => {
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
-        context.fillStyle = '#ffffff';
-        context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
         context.lineCap = 'round';
-        context.lineWidth = 5;
         context.strokeStyle = 'black';
+        context.lineWidth = 20;
         contextRef.current = context;
     }, []);
 
     const startDrawing = ({nativeEvent}) => {
         const {offsetX, offsetY} = nativeEvent;
-
         setIsDrawing(true);
         contextRef.current.beginPath();
         contextRef.current.moveTo(offsetX, offsetY);
