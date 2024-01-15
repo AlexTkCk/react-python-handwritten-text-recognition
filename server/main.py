@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 # import tensorflow as tf
 
 # ==== Model =====
@@ -6,11 +7,12 @@ from flask import Flask
 # ==== End of Model ====
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    return "Running correctly"
+    return {"text": "Running correctly"}
 
 
 if __name__ == "__main__":
