@@ -1,104 +1,34 @@
-import sys
-import cv2
 import numpy as np
+from flask import Flask, request
+from flask_cors import CORS
 import tensorflow as tf
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QHBoxLayout
-from PyQt6 import QtGui
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPen, QPainter
+from PIL import Image
+from io import BytesIO
+import base64
 
 # ==== Model =====
 model = tf.keras.models.load_model('handwritten.model')
 # ==== End of Model ====
 
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        # ==== Window Settings ====
-        self.setWindowTitle('Digits recognition')
-        # ==== End of Window Settings ====
-
-        # ==== Prediction Label ====
-        self.prediction_result_label = QLabel()
-        self.prediction_result_label.setText('Prediction is :')
-        # ==== End of Prediction Label ====
-
-        # ==== Canvas ====
-        self.canvas_label = QLabel()
-        self.canvas = QtGui.QPixmap(300, 300)
-        self.canvas.fill(Qt.GlobalColor.white)
-        self.canvas_label.setPixmap(self.canvas)
-        # ==== End of Canvas ====
-
-        # ==== Buttons ====
-        self.get_prediction_button = QPushButton()
-        self.reset_button = QPushButton()
-        self.get_prediction_button.setText('Predict')
-        self.reset_button.setText('Reset')
-
-        self.get_prediction_button.clicked.connect(self.predict)
-        self.reset_button.clicked.connect(self.reset)
-        # ==== End of Buttons ====
-
-        # ==== Main Layout ====
-        main_layout = QVBoxLayout()
-        main_layout.addWidget(self.prediction_result_label)
-        main_layout.addWidget(self.canvas_label)
-
-        # ==== Button layout ====
-        buttons_layout = QHBoxLayout()
-        buttons_layout.addWidget(self.get_prediction_button)
-        buttons_layout.addWidget(self.reset_button)
-        # ==== End of Button layout ====
-
-        main_layout.addLayout(buttons_layout)
-        # ==== End of Main layout ====
-
-        # ==== Container ====
-        container = QWidget()
-        container.setLayout(main_layout)
-        # ==== End of container ====
-
-        # ==== Pen ====
-        self.pen = QPen()
-        self.pen.setWidth(6)
-        self.pen.setCapStyle(Qt.PenCapStyle.RoundCap)
-        # ==== End of Pen ====
-
-        self.setCentralWidget(container)
-
-    def mouseMoveEvent(self, e):
-        pos = e.pos()
-        x, y = pos.x(), pos.y()
-
-        # ==== Painter ====
-        painter = QPainter(self.canvas)
-        painter.setPen(self.pen)
-        painter.drawPoint(x, y)
-        painter.end()
-        # ==== End of Painter ====
-
-        self.canvas_label.setPixmap(self.canvas)
-
-    def predict(self):
-        self.canvas.scaled(28, 28).save('predict_image.png')
-
-        img = cv2.imread(f"predict_image.png")[:, :, 0]
-        img = np.invert(np.array([img]))
-
-        prediction = np.argmax(model.predict(img))
-
-        self.prediction_result_label.setText(f'Prediction: {prediction}')
-
-    def reset(self):
-        self.canvas.fill(Qt.GlobalColor.white)
-        self.canvas_label.setPixmap(self.canvas)
+app = Flask(__name__)
+CORS(app)
 
 
-app = QApplication(sys.argv)
-window = MainWindow()
-window.show()
+@app.route("/predict", methods=["POST"])
+def predict():
+    imageURI = request.json['imageBase64']
+    base64_data = imageURI.split(",")[1]
+    img_data = base64.b64decode(base64_data)
+    img = Image.open(BytesIO(img_data))
+    img = img.resize((28, 28))
 
-app.exec()
+    npimg = np.array(img)[:, :, 0]
+    npimg = np.invert(np.array([npimg]))
+
+    prediction = np.argmax(model.predict(npimg))
+
+    return {"prediction": str(prediction)}
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080, debug=True)
