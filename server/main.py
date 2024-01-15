@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 # import tensorflow as tf
 
@@ -12,6 +12,8 @@ CORS(app)
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    data = request.json['imageBase64']
+    print(data)
     return {"text": "Running correctly"}
 
 
