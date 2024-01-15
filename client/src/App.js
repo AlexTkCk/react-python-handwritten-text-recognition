@@ -22,21 +22,21 @@ function App() {
         // Template for when server will be developed -------- !!
         // Now using mockup Promise -------- !!
 
-        // const requestOptions = {
-        //     method: 'POST',
-        //     data: {
-        //         imageBase64: imageDataURL
-        //     }
-        // }
-        // fetch('http://localhost:8080', requestOptions).then(response => response.json()).then(data => console.log(data))
+        const requestOptions = {
+            method: 'POST',
+            data: {
+                imageBase64: imageDataURL
+            },
+        }
+        fetch('http://localhost:8080/predict', requestOptions).then(res => res.json()).then(data => console.log(data));
 
         // ==== Mockup Fetch Request ====
 
-        new Promise(resolve => {
-            setTimeout(resolve, 500);
-        }).then(() => {
-            setPredictedDigit('1');
-        })
+        // new Promise(resolve => {
+        //     setTimeout(resolve, 500);
+        // }).then(() => {
+        //     setPredictedDigit('1');
+        // })
 
     }
 
