@@ -1,6 +1,9 @@
 from flask import Flask, request
 from flask_cors import CORS
 # import tensorflow as tf
+from PIL import Image
+from io import BytesIO
+import base64
 
 # ==== Model =====
 # model = tf.keras.models.load_model('handwritten.model')
@@ -12,8 +15,11 @@ CORS(app)
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.json['imageBase64']
-    print(data)
+    imageURI = request.json['imageBase64']
+    base64_data = imageURI.split(",")[1]
+    img_data = base64.b64decode(base64_data)
+    img = Image.open(BytesIO(img_data))
+
     return {"text": "Running correctly"}
 
 
