@@ -1,7 +1,6 @@
 # Model
 Layers: Input, 3 hidden activation relu layers, output<br>
 Saved: handwritten.model<br>
-Test_assets: 10 digits from 0 to 9<br>
 
 ***
 

@@ -9,6 +9,8 @@ const Canvas = ({canvasRef, ...props}) => {
         const context = canvas.getContext('2d');
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, context.canvas.width, context.canvas.height);
         context.lineCap = 'round';
         context.strokeStyle = 'black';
         context.lineWidth = 20;
