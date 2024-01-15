@@ -17,26 +17,19 @@ function App() {
     const predictHandler = () => {
         const imageDataURL = canvasRef.current.toDataURL('image/png');
 
-        // ==== Real Fetch Request ====
-
-        // Template for when server will be developed -------- !!
-        // Now using mockup Promise -------- !!
-
         const requestOptions = {
             method: 'POST',
-            data: {
+            body: JSON.stringify({
                 imageBase64: imageDataURL
-            },
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }
-        fetch('http://localhost:8080/predict', requestOptions).then(res => res.json()).then(data => console.log(data));
 
-        // ==== Mockup Fetch Request ====
-
-        // new Promise(resolve => {
-        //     setTimeout(resolve, 500);
-        // }).then(() => {
-        //     setPredictedDigit('1');
-        // })
+        fetch('http://localhost:8080/predict', requestOptions)
+            .then(res => res.json())
+            .then(data => console.log(data));
 
     }
 
