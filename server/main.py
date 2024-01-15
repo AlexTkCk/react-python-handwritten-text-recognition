@@ -19,6 +19,7 @@ def predict():
     base64_data = imageURI.split(",")[1]
     img_data = base64.b64decode(base64_data)
     img = Image.open(BytesIO(img_data))
+    img = img.resize((28, 28))
 
     return {"text": "Running correctly"}
 
