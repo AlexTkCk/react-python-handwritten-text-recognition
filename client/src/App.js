@@ -41,8 +41,8 @@ function App() {
                 <h1 className="title text-5xl md:text-8xl text-white text-center">Handwritten digits recognition</h1>
             </header>
             <main className="main grow flex flex-col md:flex-row justify-center items-center gap-5 ">
-                <Canvas canvasRef={canvasRef} className={"w-full h-full md:h-3/4 md:w-1/2 bg-white"}/>
-                <div className="w-full flex flex-col items-center justify-evenly h-full">
+                <Canvas canvasRef={canvasRef} className={"h-3/4 mx-auto aspect-square bg-white"}/>
+                <div className="w-1/2 flex flex-col items-center justify-evenly h-full">
                     <div className="relative w-fit mb-10">
                         <h1 className={'container_title relative text-3xl text-white bg-black lg:text-5xl border border-sm border-white' +
                             ' rounded-bl-3xl text-center w-fit px-7 py-3 rounded-br-3xl z-[5]'}>Prediction is : {predictedDigit}</h1>
