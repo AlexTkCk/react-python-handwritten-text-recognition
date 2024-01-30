@@ -46,6 +46,6 @@ model.add(layers.Dropout(0.5))
 model.add(layers.Dense(10, activation='softmax'))
 
 model.compile(optimizer='adam', loss=losses.sparse_categorical_crossentropy, metrics=['accuracy'])
-history = model.fit(x_train, y_train, batch_size=64, epochs=40, validation_data=(x_val, y_val))
+history = model.fit(x_train, y_train, batch_size=64, epochs=3, validation_data=(x_val, y_val))
 
 model.save('handwritten.3.AlexNet.model')
